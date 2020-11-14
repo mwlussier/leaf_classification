@@ -4,11 +4,13 @@ import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import pandas as pd
+from util_dataset import to_interim, to_processed
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+@click.argument('interim_filepath', type=click.Path())
+@click.argument('processed_filepath', type=click.Path())
+def main(input_filepath, interim_filepath, processed_filepath, ):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
@@ -16,17 +18,14 @@ def main(input_filepath, output_filepath):
     logger.info('making final data set from raw data')
 
     ### RAW DATA PULL ###
-    train_data = pd.read_csv(input_filepath + '/train.csv')
-    test_data = pd.read_csv(input_filepath + '/test.csv')
-    sample_submission = pd.read_csv(input_filepath + '/sample_submission.csv')
+    train_data = pd.read_csv(input_filepath + '/train.csv', index_col='id')
+    submission_data = pd.read_csv(input_filepath + '/test.csv', index_col='id')
 
     ### PROCESSING ###
+    to_interim(train_data, submission_data, interim_filepath)
 
-
-    ### SAVED TO OUTPUT FILEPATH ###
-    train_data.to_csv(output_filepath + '/train_processed.csv')
-    test_data.to_csv(output_filepath + '/test_processed.csv')
-    sample_submission.to_csv(output_filepath + '/sample_submission_processed.csv')
+    ### SAVED TO PROCESSED FILEPATH ###
+    to_processed(train_data, submission_data, processed_filepath)
 
 
 if __name__ == '__main__':
