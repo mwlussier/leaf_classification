@@ -3,6 +3,9 @@ import sys
 sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 from src.data.util_dataset import to_train_dataset
 import numpy as np
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import make_scorer, accuracy_score
+from sklearn.pipeline import Pipeline
 
 
 class VanillaClassifier:
@@ -48,8 +51,21 @@ class VanillaClassifier:
         #return (y - prediction) ** 2
         return (y != prediction)
 
-    def pipeline(self):
-        pass
+    def pipeline(self, param_grid, score_metrics='accuracy', refit=True):
+        """
+        Grid Search Cross-Validation (cv=5)
+        scoring = {'AUC': 'roc_auc', 'Accuracy': make_scorer(accuracy_score)}
+        """
+        #kfold = KFold(n_splits=10, random_state=22)
+        gs = GridSearchCV(estimator=self.model,
+                          param_grid=param_grid,
+                          scoring=score_metrics,
+                          refit=refit,
+                          cv=5)
+
+        gs = gs.fit(self.X_train, self.y_train)
+        print("Best Score: ", gs.best_score_)
+        print("Best Parameters: ", gs.best_params_)
 
 
 def analyse_erreur(err_train, err_test, threshold=0.3):

@@ -8,5 +8,10 @@ import models
 def main():
     if sys.argv[1] == 'smv':
         model = models.svm_classifier.svm_classifier()
-        model.training()
-        model.evaluate()
+
+        if sys.argv[1] == 'pipeline':
+            model.pipeline(model.param_grid)
+
+    # model.training()
+    # model.evaluate()
+
