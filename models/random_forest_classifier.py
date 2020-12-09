@@ -1,4 +1,3 @@
-import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from models.vanilla_classifier import VanillaClassifier
 
