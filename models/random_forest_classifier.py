@@ -23,7 +23,6 @@ class random_forest(VanillaClassifier):
                  'criterion': ['gini', 'entropy'],
                  'max_depth': [4, 8, 16, 24],
                  'min_samples_split': [2, 3, 5],
-                 'min_samples_leaf': [1, 3],
-                 'warm-start': [True, False]
+                 'min_samples_leaf': [1, 3]
                  }]
 
