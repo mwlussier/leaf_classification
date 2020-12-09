@@ -24,6 +24,7 @@ class VanillaClassifier:
 
     def __init__(self, model, data_process=False):
         self.model = model
+        self.data_process = data_process
         self.X_train, self.y_train, self.X_test, self.y_test = to_train_dataset(data_process)
 
     def training(self):
@@ -69,11 +70,13 @@ class VanillaClassifier:
         self.evaluate(evaluation=evaluation)
         print("Best Score: ", grid_search.best_score_)
         print("Best Parameters: ", grid_search.best_params_)
+        if self.data_process:
+            self.save_model()
 
-    def save_model(self):
-        dump(self.model, open('model.pkl', 'wb'))
-        return True
-
+    def save_model(self, filename=""):
+        if filename == "":
+            filename = str(self.model.__class__())[:-2] + "_best_estimator"
+        dump(self.model, open('best_estimators/' + filename + '.pkl', 'wb'))
 
 
 
