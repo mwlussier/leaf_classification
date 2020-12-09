@@ -7,10 +7,9 @@ class decision_tree(VanillaClassifier):
     """
     Decision Tree Classifier
     ==================
-        Child class implementing Random Forest classifying model.
+        Child class implementing Decision Tree classifying model.
     Attributes
     ==========
-        _n_estimators -
         _criterion      -
     """
     def __init__(self, _criterion='gini'):

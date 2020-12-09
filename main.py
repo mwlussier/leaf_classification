@@ -26,6 +26,10 @@ def main():
         if sys.argv[2] == 'pipeline':
             model.pipeline(model.param_grid)
 
+    if sys.argv[1] == 'gboost':
+        model = models.gradient_boosting_classifier.gradient_boosting()
+        if sys.argv[2] == 'pipeline':
+            model.pipeline(model.param_grid)
 
 if __name__ == "__main__":
     main()
