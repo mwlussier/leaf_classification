@@ -42,7 +42,7 @@ def to_train_dataset(processed_filepath='data/processed', test_size=0.25):
 
     # encode label first
     label_encoder = LabelEncoder()
-    y_encoded = label_encoder.fit_transform(y.values)
+    y_encoded = label_encoder.fit_transform(np.ravel(y.values))
 
     #columnTransformer = ColumnTransformer([('encoder', OneHotEncoder(), [0])], remainder='drop', sparse_threshold=0)
     #y_one_hot = np.array(columnTransformer.fit_transform(y))
