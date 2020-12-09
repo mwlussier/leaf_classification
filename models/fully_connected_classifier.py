@@ -2,7 +2,7 @@ from sklearn.neural_network import MLPClassifier
 from models.vanilla_classifier import VanillaClassifier
 
 
-class FullyConnectedClassifier(VanillaClassifier):
+class fully_connected(VanillaClassifier):
     """
     MLP Classifier
     ==================
@@ -26,17 +26,17 @@ see this https://www.heatonresearch.com/2017/06/01/hidden-layers.html
     """
 
     def __init__(self, _hidden_layer_sizes=(100,), _activation='relu', _solver='adam', _alpha=0.0001,
-                 _learning_rate='adaptive', _learning_rate_init=0.001, _max_iter=200):
+                 _learning_rate='adaptive', _learning_rate_init=0.001, _max_iter=200, data_process=False):
         super().__init__(MLPClassifier(hidden_layer_sizes=_hidden_layer_sizes, activation=_activation, solver=_solver,
                                        alpha=_alpha, learning_rate=_learning_rate,
-                                       learning_rate_init=_learning_rate_init))
+                                       learning_rate_init=_learning_rate_init), data_process=data_process)
         self.parameters = {'hidden_layer_sizes': _hidden_layer_sizes, 'activation': _activation, 'solver': _solver,
                            'alpha': _alpha, 'learning_rate': _learning_rate, 'learning_rate_init': _learning_rate_init,
                            'max_iter': _max_iter}
         self.param_grid = self.get_param_grid()
 
     def get_param_grid(self):
-        return [{'hidden_layer_sizes': [(128,), (128, 64)],
+        return {'hidden_layer_sizes': [(128,), (128, 64)],
                  'activation': ['logistic', 'relu'],
                  'solver': ['sgd', 'adam'],
                  'alpha': [1e-5, 0.001, 0.01],
@@ -44,4 +44,4 @@ see this https://www.heatonresearch.com/2017/06/01/hidden-layers.html
                  'learning_rate_init': [1e-5, 0.001, 0.01],
                  'max_iter': [200, 400],
                  'early_stopping': [True, False]
-                 }]
+                 }

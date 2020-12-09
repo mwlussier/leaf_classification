@@ -2,10 +2,10 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 from src.data.util_dataset import to_train_dataset
-import numpy as np
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
-from sklearn.metrics import make_scorer, accuracy_score
-from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+from pickle import dump, load
 
 
 class VanillaClassifier:
@@ -22,10 +22,9 @@ class VanillaClassifier:
 
     """
 
-    def __init__(self, model):
+    def __init__(self, model, data_process=False):
         self.model = model
-        self.X_train, self.y_train, self.X_test, self.y_test = to_train_dataset()
-        self.best_parameters = {}
+        self.X_train, self.y_train, self.X_test, self.y_test = to_train_dataset(data_process)
 
     def training(self):
         self.model.fit(self.X_train, self.y_train)
@@ -33,66 +32,86 @@ class VanillaClassifier:
     def prediction(self, X):
         return self.model.predict(X)
 
-    def evaluate(self):
-        pred_train = self.prediction(self.X_train)
-        err_train = np.array([self.erreur(t_n, p_n) for t_n, p_n in zip(self.y_train, pred_train)])
+    def evaluate(self, evaluation='simple', visualisation=False):
+        accuracy_train = self.model.score(self.X_train, self.y_train)
+        accuracy_test = self.model.score(self.X_test, self.y_test)
+        err_train = 1 - accuracy_train
+        err_test = 1 - accuracy_test
 
-        pred_test = self.prediction(self.X_test)
-        err_test = np.array([self.erreur(t_n, p_n) for t_n, p_n in zip(self.y_test, pred_test)])
+        print('Training error: ', str(round(err_train * 100, 3)), '%')
+        print('Testing error: ', str(round(err_test * 100, 3)), '%')
+        error_flag = error_analysis(err_train, err_test)
+        if error_flag:
+            prediction = self.model.predict(self.X_test)
+            probability = self.model.predict_proba(self.X_test)
+            metrics(self.y_test, prediction=prediction, evaluation=evaluation, probability=probability)
 
-        print('Erreur train = ', str(round(err_train.mean() * 100, 5)), '%')
-        print('Erreur test = ', str(round(err_test.mean() * 100, 5)), '%')
-        analyse_erreur(err_train.mean(), err_test.mean())
 
-    def erreur(self, y, prediction, type='classification'):
-        """
-        y: true label
-        prediction: model prediction
-        type: model type
-        
-        Classification
-        --------------
-            Return True or False depending if y == prediction
 
-        Regression
-        ----------
-            Return the squared difference of y and the prediction
-        """
-        if type == 'classification':
-            return y != prediction
 
-        if type == 'regression':
-            return (y - prediction) ** 2
-
-    def pipeline(self, param_grid, kfold=5, score_metrics='accuracy', refit=True):
+    def pipeline(self, param_grid, k_fold=5, score_metrics='accuracy', evaluation='simple'):
         """
         Stratified KFold (default=5): Generate test sets such that all contain the
             same distribution of classes, or as close as possible.
         Grid Search Cross-Validation
         scoring = {'AUC': 'roc_auc', 'Accuracy': make_scorer(accuracy_score)}
         """
-        cross_validation = StratifiedKFold(n_splits=kfold, shuffle=True)
-        gs = GridSearchCV(estimator=self.model,
-                          param_grid=param_grid,
-                          scoring=score_metrics,
-                          refit=refit,
-                          cv=cross_validation)
+        k_fold_cv = StratifiedKFold(n_splits=k_fold, shuffle=True)
+        grid_search = GridSearchCV(estimator=self.model,
+                                   param_grid=param_grid,
+                                   scoring=score_metrics,
+                                   refit=True,
+                                   cv=k_fold_cv)
 
-        gs = gs.fit(self.X_train, self.y_train)
-        print("Best Score: ", gs.best_score_)
-        print("Best Parameters: ", gs.best_params_)
-        self.best_parameters = gs.best_params_
+        grid_search.fit(self.X_train, self.y_train)
+        self.model = grid_search.best_estimator_
+        self.training()
+        self.evaluate(evaluation=evaluation)
+        print("Best Score: ", grid_search.best_score_)
+        print("Best Parameters: ", grid_search.best_params_)
+
+    def save_model(self):
+        dump(self.model, open('model.pkl', 'wb'))
+        return True
 
 
-def analyse_erreur(err_train, err_test, threshold=0.3):
+
+
+def metrics(y, prediction, evaluation='simple', probability=None):
     """
-    Fonction qui affiche un WARNING lorsqu'il y a apparence de sur ou de sous
-    apprentissage
+
+
     """
-    #AJOUTER CODE ICI
-    # Utilisation d'un threshold arbitraire de 30% qui signale lorsqu'il y a sur ou sous apprentissage
+    if evaluation == 'confusion_matrix':
+        confusion = confusion_matrix(y, prediction)
+        print('Confusion Matrix\n')
+        print(confusion)
+    if evaluation == 'report':
+        print('\nClassification Report\n')
+        print(classification_report(y, prediction))
+    if evaluation == 'roc_auc':
+        auc = roc_auc_score(y, probability)
+        print('\nROC AUC: {:.2f}\n'.format(auc))
+
+    print('\nAccuracy: {:.2f}\n'.format(accuracy_score(y, prediction)))
+    print('Micro Precision: {:.2f}'.format(precision_score(y, prediction, average='micro')))
+    print('Micro Recall: {:.2f}'.format(recall_score(y, prediction, average='micro')))
+    print('Micro F1-score: {:.2f}\n'.format(f1_score(y, prediction, average='micro')))
+
+    print('Macro Precision: {:.2f}'.format(precision_score(y, prediction, average='macro')))
+    print('Macro Recall: {:.2f}'.format(recall_score(y, prediction, average='macro')))
+    print('Macro F1-score: {:.2f}\n'.format(f1_score(y, prediction, average='macro')))
+
+
+def error_analysis(err_train, err_test, threshold=0.3):
+    """
+        Using a threshold to flag when there is over/under-fitting.
+        Default: 0.30
+    """
     if (err_test - err_train) > threshold:
-        print("WARNING: SUR-apprentissage")
-
+        print("WARNING: OVER-fitting")
+        return True
     if (err_train > threshold):
-        print("WARNING: SOUS-apprentissage")
+        print("WARNING: UNDER-fitting")
+        return True
+    return False

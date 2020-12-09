@@ -33,7 +33,7 @@ def to_processed(train_data, submission_data,
     submission_data.to_csv(processed_filepath + '/x_' + submission_suffixe + '.csv')
 
 
-def to_train_dataset(processed_filepath='data/processed', test_size=0.25):
+def to_train_dataset(data_process, processed_filepath='data/processed', test_size=0.25):
     """
 
     """
