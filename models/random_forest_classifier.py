@@ -19,10 +19,10 @@ class random_forest(VanillaClassifier):
         self.param_grid = self.get_param_grid()
 
     def get_param_grid(self):
-        return {'n_estimators': [50, 100, 200, 400, 600],
-                 'criterion': ['gini', 'entropy'],
-                 'max_depth': [4, 8, 16, 24],
-                 'min_samples_split': [2, 3, 5],
-                 'min_samples_leaf': [1, 3]
-                 }
+        return {'n_estimators': [100, 200, 400, 600],
+                'criterion': ['gini', 'entropy'],
+                'max_depth': [4, 8, 16, 24],
+                'min_samples_split': [2, 3, 5],
+                'min_samples_leaf': [1, 3]
+                }
 
