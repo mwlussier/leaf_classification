@@ -79,10 +79,16 @@ class VanillaClassifier:
         dump(self.model, open('best_estimators/' + filename + '.pkl', 'wb'))
 
 
-
 def metrics(y, prediction, evaluation='simple', probability=None):
     """
-
+        pred = clf.predict(X_train)
+        clf_report = pd.DataFrame(classification_report(y_train, pred, output_dict=True))
+        print("Train Result:\n================================================")
+        print(f"Accuracy Score: {accuracy_score(y_train, pred) * 100:.2f}%")
+        print("_______________________________________________")
+        print(f"CLASSIFICATION REPORT:\n{clf_report}")
+        print("_______________________________________________")
+        print(f"Confusion Matrix: \n {confusion_matrix(y_train, pred)}\n")
 
     """
     if evaluation == 'confusion_matrix':

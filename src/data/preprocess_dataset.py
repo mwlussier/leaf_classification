@@ -1,13 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-
-def leaf_class_reduction(train_data):
-    """
-    Reduce the numbers of class to predict by grouping each leaf into their more general classification.
-    """
-    train_data['general_species'] = train_data['species'].str.split('_').str[0]
-
+from sklearn.decomposition import PCA
 
 def complete_preprocessing(train_data, submission_data):
     """
@@ -26,10 +20,35 @@ def complete_preprocessing(train_data, submission_data):
     submission = submission_data[train.columns].copy()
 
     standard_scaler = StandardScaler().fit(train)
-    train_scaled = pd.DataFrame(standard_scaler.transform(train),
+    train_scaled = standard_scaler.transform(train)
+    submission_scaled = standard_scaler.transform(submission)
+    train_pca, submission_pca = pca_decomposition(train_scaled, submission_scaled, 50)
+
+    train_scaled = pd.DataFrame(train_pca,
                                 columns=train.columns, index=train.index)
     train_scaled['species'] = train_target
     submission_scaled = pd.DataFrame(standard_scaler.transform(submission),
                                      columns=submission.columns, index=submission.index)
 
     return train_scaled, submission_scaled
+
+
+def pca_decomposition(train, submission, n_components):
+    """
+        Apply PCA decomposition to reduce dimensionality.
+        For the sake of this study, we will be using a decomposition to 50 and 100 features.
+        PCA(30)  : ~ 84.5% explained
+        PCA(50)  : ~ 91.6% explained
+        PCA(100) : ~ 98.1% explained
+        PCA(150) : ~ 99.9% explained
+    """
+    pca = PCA(n_components=n_components, svd_solver='auto')
+    pca.fit(train)
+    train_data = pca.transform(train)
+    submission_data = pca.transform(submission)
+
+    train_pca = pd.DataFrame(train_data, columns=['pc' + str(_) for _ in np.arange(1, n_components + 1)])
+    submission_pca = pd.DataFrame(submission_data, columns=['pc' + str(_) for _ in np.arange(1, n_components + 1)])
+
+    print(f'With {n_components} principal components you explained is:{pca.explained_variance_ratio_.sum()}')
+    return train_pca, submission_pca
