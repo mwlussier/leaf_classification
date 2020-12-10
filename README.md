@@ -2,6 +2,7 @@ Leaf Classification
 ==============================
 
 Kaggle "Leaf Classification" database classification project for IFT712.
+> make data
 
 Project Organization
 ------------

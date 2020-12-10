@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import pandas as pd
 from util_dataset import to_interim, to_processed
-from preprocess_dataset import leaf_class_reduction, complete_preprocessing
+from preprocess_dataset import complete_preprocessing
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
@@ -24,13 +24,8 @@ def main(input_filepath, interim_filepath, processed_filepath, ):
 
     ### PROCESSING ###
     train_processed, submission_processed = complete_preprocessing(train_data, submission_data)
-
-    to_interim(train_processed, file_name='/train.csv')
+    to_interim(train_processed, seperate_label=True, file_name='/train.csv')
     to_interim(submission_processed, file_name='/submission.csv')
-
-    # Class reduction #
-    #####   leaf_class_reduction(train_data)
-
 
     ### SAVED TO PROCESSED FILEPATH ###
     to_processed(train_processed, submission_processed,
@@ -47,5 +42,4 @@ if __name__ == '__main__':
     # find .env automagically by walking up directories until it's found, then
     # load up the .env entries as environment variables
     load_dotenv(find_dotenv())
-
     main()
