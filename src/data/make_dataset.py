@@ -23,9 +23,9 @@ def main(input_filepath, interim_filepath, processed_filepath, ):
     submission_data = pd.read_csv(input_filepath + '/test.csv', index_col='id')
 
     ### PROCESSING ###
+    to_interim(train_data, seperate_label=True, file_name='/train.csv')
+    to_interim(submission_data, file_name='/submission.csv')
     train_processed, submission_processed = complete_preprocessing(train_data, submission_data)
-    to_interim(train_processed, seperate_label=True, file_name='/train.csv')
-    to_interim(submission_processed, file_name='/submission.csv')
 
     ### SAVED TO PROCESSED FILEPATH ###
     to_processed(train_processed, submission_processed,

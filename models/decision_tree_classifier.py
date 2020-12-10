@@ -19,6 +19,6 @@ class decision_tree(VanillaClassifier):
 
     def get_param_grid(self):
         return {'criterion': ['gini', 'entropy'],
-                 'max_depth': [6, 8, 10]
-                 }
+                'max_depth': [6, 8, 10]
+                }
 

@@ -23,14 +23,16 @@ def complete_preprocessing(train_data, submission_data):
     train_scaled = standard_scaler.transform(train)
     submission_scaled = standard_scaler.transform(submission)
     train_pca, submission_pca = pca_decomposition(train_scaled, submission_scaled, 50)
+    train_pca.index = train.index
+    submission_pca.index = submission.index
+    # train_scaled = pd.DataFrame(train_pca,
+    #                             columns=train.columns, index=train.index)
+    train_pca['species'] = train_target
 
-    train_scaled = pd.DataFrame(train_pca,
-                                columns=train.columns, index=train.index)
-    train_scaled['species'] = train_target
-    submission_scaled = pd.DataFrame(standard_scaler.transform(submission),
-                                     columns=submission.columns, index=submission.index)
+    # submission_scaled = pd.DataFrame(standard_scaler.transform(submission),
+    #                                  columns=submission.columns, index=submission.index)
 
-    return train_scaled, submission_scaled
+    return train_pca, submission_pca
 
 
 def pca_decomposition(train, submission, n_components):

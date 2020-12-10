@@ -21,10 +21,10 @@ def main():
     cv_metrics: accuracy | roc_auc
     evaluate: simple | confusion_matrix | report | roc_auc
     data_processing: 0 | 1
-
     """
 
-    model = svm_classifier()
+    model = svm_classifier(data_process=True)
+    model.pipeline(model.param_grid, k_fold=5)
     model.training()
     model.evaluate()
 
