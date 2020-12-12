@@ -78,7 +78,8 @@ class VanillaClassifier:
     def save_model(self, filename=""):
         if filename == "":
             filename = str(self.model.__class__())[:-2] + "_best_estimator"
-        dump(self.model, open('models/best_estimators/' + filename + '.pkl', 'wb'))
+        #dump(self.model, open('models/best_estimators/' + filename + '.pkl', 'wb'))
+
 
 
 def metrics(y, prediction, evaluation='simple', probability=None):
