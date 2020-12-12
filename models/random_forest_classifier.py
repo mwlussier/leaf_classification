@@ -12,7 +12,7 @@ class random_forest(VanillaClassifier):
         _n_estimators -
         _criterion      -
     """
-    def __init__(self, _n_estimators=100, _criterion='gini', data_process=False):
+    def __init__(self, _n_estimators=100, _criterion='gini', data_process=None):
         super().__init__(RandomForestClassifier(n_estimators=_n_estimators, criterion=_criterion),
                          data_process=data_process)
         self.parameters = {'n_estimators': _n_estimators, 'criterion': _criterion}

@@ -40,13 +40,28 @@ def to_processed(train_data, submission_data,
 
 def to_train_dataset(data_process, test_size=0.20):
     """
+        data_process: None | 'simple' | 'fselection' | 'pca50' | 'pca100' | 'pca150'
+
         We are using 'StratifiedShuffleSplit' to keep a better distribution of the different target we have.
         By separating into equally distribution and than aggregating to perform our training and testing set,
         we raise our chance to have a good representation into both set.
     """
-    if data_process:
-        X = pd.read_csv('data/processed/x_train.csv', index_col='id')
-        y = pd.read_csv('data/processed/y_train.csv', index_col='id')
+
+    if data_process == 'simple':
+        X = pd.read_csv('data/processed/x_train_simple.csv', index_col='id')
+        y = pd.read_csv('data/processed/y_train_simple.csv', index_col='id')
+    elif data_process == 'fselection':
+        X = pd.read_csv('data/processed/x_train_feature_selection.csv', index_col='id')
+        y = pd.read_csv('data/processed/y_train_feature_selection.csv', index_col='id')
+    elif data_process == 'pca50':
+        X = pd.read_csv('data/processed/x_train_feature_pca50.csv', index_col='id')
+        y = pd.read_csv('data/processed/y_train_feature_pca50.csv', index_col='id')
+    elif data_process == 'pca100':
+        X = pd.read_csv('data/processed/x_train_feature_pca100.csv', index_col='id')
+        y = pd.read_csv('data/processed/y_train_feature_pca100.csv', index_col='id')
+    elif data_process == 'pca150':
+        X = pd.read_csv('data/processed/x_train_feature_pca150.csv', index_col='id')
+        y = pd.read_csv('data/processed/y_train_feature_pca150.csv', index_col='id')
     else:
         X = pd.read_csv('data/interim/x_train.csv', index_col='id')
         y = pd.read_csv('data/interim/y_train.csv', index_col='id')

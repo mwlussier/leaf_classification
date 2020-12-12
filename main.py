@@ -20,7 +20,7 @@ def main():
     pipeline: simple | cross_validation
     cv_metrics: accuracy | roc_auc
     evaluate: simple | confusion_matrix | report | roc_auc
-    data_processing: 0 | 1
+    data_processing: <Empty> | simple | fselection | pca50 | pca100 | pca150
     """
 
     model = fully_connected(data_process=True)
@@ -29,8 +29,10 @@ def main():
     model.training()
     model.evaluate()
 
-    if sys.argv[5] == '1':
-        data_process = True
+    try:
+        data_process = sys.argv[5]
+    except:
+        data_process = None
 
     #  ~~~ Bagging ~~~
     if sys.argv[1] == 'bagging':

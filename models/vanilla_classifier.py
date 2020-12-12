@@ -22,7 +22,7 @@ class VanillaClassifier:
 
     """
 
-    def __init__(self, model, data_process=False):
+    def __init__(self, model, data_process=None):
         self.model = model
         self.data_process = data_process
         self.X_train, self.y_train, self.X_test, self.y_test = to_train_dataset(data_process)
@@ -72,13 +72,13 @@ class VanillaClassifier:
         self.evaluate(evaluation=evaluation)
         print("Best Score: ", grid_search.best_score_)
         print("Best Parameters: ", grid_search.best_params_)
-        if self.data_process:
+        if self.data_process is not None:
             self.save_model()
 
     def save_model(self, filename=""):
         if filename == "":
             filename = str(self.model.__class__())[:-2] + "_best_estimator"
-        #dump(self.model, open('models/best_estimators/' + filename + '.pkl', 'wb'))
+        dump(self.model, open('models/best_estimators/' + filename + '.pkl', 'wb'))
 
 
 

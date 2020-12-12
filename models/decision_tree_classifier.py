@@ -12,7 +12,7 @@ class decision_tree(VanillaClassifier):
     ==========
         _criterion      -
     """
-    def __init__(self, _criterion='gini', data_process=False):
+    def __init__(self, _criterion='gini', data_process=None):
         super().__init__(DecisionTreeClassifier(criterion=_criterion), data_process=data_process)
         self.parameters = {'criterion': _criterion}
         self.param_grid = self.get_param_grid()

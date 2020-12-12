@@ -26,7 +26,7 @@ see this https://www.heatonresearch.com/2017/06/01/hidden-layers.html
     """
 
     def __init__(self, _hidden_layer_sizes=(100,), _activation='relu', _solver='adam', _alpha=0.0001,
-                 _learning_rate='constant', _learning_rate_init=0.001, _max_iter=200, data_process=False):
+                 _learning_rate='constant', _learning_rate_init=0.001, _max_iter=200, data_process=None):
         super().__init__(MLPClassifier(hidden_layer_sizes=_hidden_layer_sizes, activation=_activation, solver=_solver,
                                        alpha=_alpha, learning_rate=_learning_rate,
                                        learning_rate_init=_learning_rate_init), data_process=data_process)
