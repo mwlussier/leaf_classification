@@ -1,12 +1,10 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
-
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split, StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.preprocessing import LabelEncoder
-
 
 
 def to_interim(dataframe, file_name, seperate_label=False, interim_filepath='data/interim'):
@@ -20,7 +18,7 @@ def to_interim(dataframe, file_name, seperate_label=False, interim_filepath='dat
         X = dataframe.drop(['species'], axis=1)
         y = dataframe.species
 
-        ### SAVE TO PROCESSED PATH ###
+        ### SAVE TO INTERIM PATH ###
         X.to_csv(interim_filepath + '/x_train.csv')
         y.to_csv(interim_filepath + '/y_train.csv')
 
@@ -57,6 +55,7 @@ def to_train_dataset(data_process, test_size=0.20):
     label_encoder = LabelEncoder()
     y_encoded = label_encoder.fit_transform(np.ravel(y.values))
 
+    # Using Stratified Split to get a good representation of every classes
     ss_split = StratifiedShuffleSplit(n_splits=5, test_size=test_size, random_state=42)
     ss_split.get_n_splits(X, y_encoded)
 

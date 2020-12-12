@@ -11,8 +11,9 @@ from preprocess_dataset import complete_preprocessing
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('interim_filepath', type=click.Path())
 @click.argument('processed_filepath', type=click.Path())
-def main(input_filepath, interim_filepath, processed_filepath, ):
-    """ Runs data processing scripts to turn raw data from (../raw) into
+def main(input_filepath, interim_filepath, processed_filepath):
+    """
+        Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
     logger = logging.getLogger(__name__)
@@ -25,11 +26,30 @@ def main(input_filepath, interim_filepath, processed_filepath, ):
     ### PROCESSING ###
     to_interim(train_data, seperate_label=True, file_name='/train.csv')
     to_interim(submission_data, file_name='/submission.csv')
-    train_processed, submission_processed = complete_preprocessing(train_data, submission_data)
+
+    train_simple, submission_simple = complete_preprocessing(train_data, submission_data)
+    train_pca_50, submission_pca_50 = complete_preprocessing(train_data, submission_data, pca=50)
+    train_pca_100, submission_pca_100 = complete_preprocessing(train_data, submission_data, pca=100)
+    train_pca_150, submission_pca_150 = complete_preprocessing(train_data, submission_data, pca=150)
+    train_fselection, submission_fselection = complete_preprocessing(train_data, submission_data,
+                                                                     features_selection=True)
 
     ### SAVED TO PROCESSED FILEPATH ###
-    to_processed(train_processed, submission_processed,
-                 train_suffixe='train', submission_suffixe='submission')
+    # preprocessed Simple
+    to_processed(train_simple, submission_simple,
+                 train_suffixe='train_simple', submission_suffixe='submission_simple')
+    # preprocessed PCA(50)
+    to_processed(train_pca_50, submission_pca_50,
+                 train_suffixe='train_pca_50', submission_suffixe='submission_pca_50')
+    # preprocessed PCA(100)
+    to_processed(train_pca_100, submission_pca_100,
+                 train_suffixe='train_pca_100', submission_suffixe='submission_pca_100')
+    # preprocessed PCA(150)
+    to_processed(train_pca_150, submission_pca_150,
+                 train_suffixe='train_pca_150', submission_suffixe='submission_pca_150')
+    # preprocessed Features Selection
+    to_processed(train_fselection, submission_fselection,
+                 train_suffixe='train_feature_selection', submission_suffixe='submission_feature_selection')
 
 
 if __name__ == '__main__':
