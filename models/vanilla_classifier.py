@@ -44,8 +44,8 @@ class VanillaClassifier:
         error_flag = error_analysis(err_train, err_test)
         if error_flag:
             prediction = self.model.predict(self.X_test)
-            probability = self.model.predict_proba(self.X_test)
-            metrics(self.y_test, prediction=prediction, evaluation=evaluation, probability=probability)
+            #probability = self.model.predict_proba(self.X_test)
+            metrics(self.y_test, prediction=prediction, evaluation=evaluation, probability=None)
 
 
 
@@ -62,7 +62,9 @@ class VanillaClassifier:
                                    param_grid=param_grid,
                                    scoring=score_metrics,
                                    refit=True,
-                                   cv=k_fold_cv)
+                                   cv=k_fold_cv,
+                                   verbose=1,
+                                   n_jobs=-1)
 
         grid_search.fit(self.X_train, self.y_train)
         self.model = grid_search.best_estimator_
@@ -76,7 +78,7 @@ class VanillaClassifier:
     def save_model(self, filename=""):
         if filename == "":
             filename = str(self.model.__class__())[:-2] + "_best_estimator"
-        dump(self.model, open('best_estimators/' + filename + '.pkl', 'wb'))
+        dump(self.model, open('models/best_estimators/' + filename + '.pkl', 'wb'))
 
 
 def metrics(y, prediction, evaluation='simple', probability=None):
@@ -112,10 +114,10 @@ def metrics(y, prediction, evaluation='simple', probability=None):
     print('Macro F1-score: {:.2f}\n'.format(f1_score(y, prediction, average='macro')))
 
 
-def error_analysis(err_train, err_test, threshold=0.3):
+def error_analysis(err_train, err_test, threshold=0.2):
     """
         Using a threshold to flag when there is over/under-fitting.
-        Default: 0.30
+        Default: 0.20
     """
     if (err_test - err_train) > threshold:
         print("WARNING: OVER-fitting")

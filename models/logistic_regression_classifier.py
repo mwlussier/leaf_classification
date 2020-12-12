@@ -21,7 +21,7 @@ class logistic_regression(VanillaClassifier):
 
     def get_param_grid(self):
         return {'penalty': ['l2'],
-                'solver': ['newton-cg', 'saga'],
+                'solver': ['newton-cg', 'lbfgs', 'saga'],
                 'C': np.logspace(0, 4, 6),
-                'max_iter': [200, 400]
+                'max_iter': [1500]
                 }

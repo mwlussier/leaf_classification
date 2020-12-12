@@ -14,7 +14,7 @@ from models.svm_classifier import svm_classifier
 
 def main():
     """
-    python3 main.py <model> <pipeline> <metrics> <visualisation>
+    python3 main.py <model> <pipeline> <metrics> <data_processing> ...<visualisation>
 
     model : bagging | decision_tree | fconnected | gboost | logit | random_forest | svm
     pipeline: simple | cross_validation
@@ -23,7 +23,8 @@ def main():
     data_processing: 0 | 1
     """
 
-    model = svm_classifier(data_process=True)
+    model = fully_connected(data_process=True)
+    #model = bagging(data_process=True)
     model.pipeline(model.param_grid, k_fold=5)
     model.training()
     model.evaluate()
