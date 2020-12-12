@@ -49,7 +49,7 @@ def main(input_filepath, interim_filepath, processed_filepath):
                  train_suffixe='train_pca_150', submission_suffixe='submission_pca_150')
     # preprocessed Features Selection
     to_processed(train_fselection, submission_fselection,
-                 train_suffixe='train_feature_selection', submission_suffixe='submission_feature_selection')
+                 train_suffixe='train_fselection', submission_suffixe='submission_fselection')
 
 
 if __name__ == '__main__':

@@ -1,7 +1,18 @@
 Leaf Classification
 ==============================
-
 Kaggle "Leaf Classification" database classification project for IFT712.
+
+For package installation, you may run*: 
+> pip install -r "requirements.txt"
+
+*In case there is an error regarding "pkg-resources==0.0.0", you may try removing it from the requirements.txt file.
+There seem to be a general issue regarding this particular package and v env.
+
+Data Initialisation
+------------
+Make sure there is a "data" folder as presented below with your raw data into "data/raw".
+
+You may then run (you need Make to execute Makefile):
 > make data
 
 Project Organization
@@ -11,7 +22,6 @@ Project Organization
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.

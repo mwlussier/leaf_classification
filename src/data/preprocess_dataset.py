@@ -60,7 +60,7 @@ def pca_decomposition(train, submission, n_components):
     return train_pca, submission_pca
 
 
-def remove_useless_features(train, submission, pourc_of_db=0.50):
+def remove_useless_features(train, submission, pourc_of_db=0.30):
     """
         Apply manual dimension reduction on features having more than 50% (default) equal to zero(0).
     """

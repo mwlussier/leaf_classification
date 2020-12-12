@@ -38,7 +38,7 @@ def to_processed(train_data, submission_data,
     submission_data.to_csv(processed_filepath + '/x_' + submission_suffixe + '.csv')
 
 
-def to_train_dataset(data_process, test_size=0.20):
+def to_train_dataset(data_process, test_size=0.30):
     """
         data_process: None | 'simple' | 'fselection' | 'pca50' | 'pca100' | 'pca150'
 
@@ -46,29 +46,22 @@ def to_train_dataset(data_process, test_size=0.20):
         By separating into equally distribution and than aggregating to perform our training and testing set,
         we raise our chance to have a good representation into both set.
     """
+    processed_filepath = 'data/processed/'
+    if data_process is None:
+        data_process = ""
+        processed_filepath = 'data/interim/'
 
-    if data_process == 'simple':
-        X = pd.read_csv('data/processed/x_train_simple.csv', index_col='id')
-        y = pd.read_csv('data/processed/y_train_simple.csv', index_col='id')
-    elif data_process == 'fselection':
-        X = pd.read_csv('data/processed/x_train_feature_selection.csv', index_col='id')
-        y = pd.read_csv('data/processed/y_train_feature_selection.csv', index_col='id')
-    elif data_process == 'pca50':
-        X = pd.read_csv('data/processed/x_train_feature_pca50.csv', index_col='id')
-        y = pd.read_csv('data/processed/y_train_feature_pca50.csv', index_col='id')
-    elif data_process == 'pca100':
-        X = pd.read_csv('data/processed/x_train_feature_pca100.csv', index_col='id')
-        y = pd.read_csv('data/processed/y_train_feature_pca100.csv', index_col='id')
-    elif data_process == 'pca150':
-        X = pd.read_csv('data/processed/x_train_feature_pca150.csv', index_col='id')
-        y = pd.read_csv('data/processed/y_train_feature_pca150.csv', index_col='id')
-    else:
-        X = pd.read_csv('data/interim/x_train.csv', index_col='id')
-        y = pd.read_csv('data/interim/y_train.csv', index_col='id')
+    x_filename = 'x_train_' + data_process + '.csv'
+    y_filename = 'y_train_' + data_process + '.csv'
+
+    X = pd.read_csv(processed_filepath + x_filename, index_col='id')
+    y = pd.read_csv(processed_filepath + y_filename, index_col='id')
 
     # Encode Label into numeric value
     label_encoder = LabelEncoder()
     y_encoded = label_encoder.fit_transform(np.ravel(y.values))
+    y['encoded'] = y_encoded
+    label_map = y.drop_duplicates().set_index('encoded').sort_index()
 
     # Using Stratified Split to get a good representation of every classes
     ss_split = StratifiedShuffleSplit(n_splits=5, test_size=test_size, random_state=42)
@@ -79,5 +72,11 @@ def to_train_dataset(data_process, test_size=0.20):
         X_train, X_test = X.iloc[train_index].values, X.iloc[test_index].values
         y_train, y_test = y_encoded[train_index], y_encoded[test_index]
 
-    return X_train, y_train, X_test, y_test
+    return X_train, y_train, X_test, y_test, label_map.species
 
+
+def to_submit(data_process):
+    processed_filepath = 'data/processed/'
+    x_filename = 'x_submission_' + data_process + '.csv'
+    X = pd.read_csv(processed_filepath + x_filename, index_col='id')
+    return X
