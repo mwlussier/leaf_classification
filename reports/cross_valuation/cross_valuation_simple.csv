@@ -1,0 +1,8 @@
+,model,accuracy_train,train_loss,test_loss,accuracy_test,parameters
+0,bagging,1.0,0.3565908008203387,0.6919236017924529,0.9292929292929293,"{'estimators': [('SVM', SVC(probability=True)), ('GBoost', GradientBoostingClassifier()), ('fc_relu', MLPClassifier(hidden_layer_sizes=(128, 64)))], 'voting': 'soft'}"
+1,decision_tree,1.0,9.887825687295911e-14,10.931464582901125,0.6835016835016835,{'criterion': 'gini'}
+2,fconnected,1.0,0.006370616565483534,0.09397949164002892,0.9831649831649831,"{'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam', 'alpha': 0.0001, 'learning_rate': 'constant', 'learning_rate_init': 0.001, 'max_iter': 200}"
+3,gboost,1.0,1.0463028976745718e-09,2.9468543548574067,0.6296296296296297,"{'loss': 'deviance', 'learning_rate': 0.1, 'n_estimators': 100, 'criterion': 'friedman_mse'}"
+4,logit,1.0,0.0005043598681690611,0.06761591867506815,0.9865319865319865,"{'penalty': 'l2', 'solver': 'newton-cg', 'C': 100, 'max_iter': 100}"
+5,random_forest,1.0,0.24070963468302445,0.8218245789786003,0.9865319865319865,"{'n_estimators': 100, 'criterion': 'gini'}"
+6,svm,1.0,8.81751560254819,4.599372298189995,0.30303030303030304,"{'kernel': 'rbf', 'gamma': 1, 'C': 1, 'degree': 3}"

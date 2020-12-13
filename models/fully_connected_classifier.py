@@ -38,7 +38,7 @@ see this https://www.heatonresearch.com/2017/06/01/hidden-layers.html
     def get_param_grid(self):
         return {'hidden_layer_sizes': [(128,), (128, 64)],
                 'activation': ['relu'],
-                'solver': ['sgd', 'adam'],
+                'solver': ['adam'],
                 'alpha': [1e-5, 0.001, 0.01],
                 'learning_rate': ['constant', 'adaptive'],
                 'learning_rate_init': [1e-5, 0.001, 0.01],

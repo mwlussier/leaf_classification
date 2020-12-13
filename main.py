@@ -12,7 +12,7 @@ from models.svm_classifier import svm_classifier
 
 def main():
     """
-    python3 main.py <model> <pipeline> <cv_metrics> <evaluate> <data_processing> ...<visualisation>
+    python3 main.py <model> <pipeline> <cv_metrics> <evaluate> <data_processing>
 
     model : bagging | decision_tree | fconnected | gboost | logit | random_forest | svm
     pipeline: simple | cross_validation

@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
-from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, log_loss
 from pickle import dump, load
 from src.data.util_dataset import to_train_dataset, to_submit
 
@@ -45,15 +45,21 @@ class VanillaClassifier:
         print('Training error: ', str(round(err_train * 100, 3)), '%')
         print('Testing error: ', str(round(err_test * 100, 3)), '%')
         error_flag = error_analysis(err_train, err_test)
+        train_log_loss = 9999
+        test_log_loss = 9999
+        try:
+            probability_train = self.model.predict_proba(self.X_train)
+            probability = self.model.predict_proba(self.X_test)
+            train_log_loss = log_loss(self.y_train, probability_train)
+            test_log_loss = log_loss(self.y_test, probability)
+        except:
+            probability=None
+
         if error_flag:
             prediction = self.model.predict(self.X_test)
-            try:
-                probability = self.model.predict_proba(self.X_test)
-            except:
-                probability=None
             metrics(self.y_test, self.label_map, prediction=prediction,
                     evaluation=evaluation, probability=probability)
-        return accuracy_test
+        return accuracy_train, accuracy_test, train_log_loss, test_log_loss
 
     def pipeline(self, param_grid, k_fold=5, score_metrics='accuracy', evaluation='report'):
         """
@@ -74,16 +80,19 @@ class VanillaClassifier:
         grid_search.fit(self.X_train, self.y_train)
         self.model = grid_search.best_estimator_
         self.training()
-        accuracy_test = self.evaluate(evaluation=evaluation)
+        accuracy_train, accuracy_test, train_loss, test_loss = self.evaluate(evaluation=evaluation)
         print("Best Score: ", grid_search.best_score_)
         print("Best Parameters: ", grid_search.best_params_)
         if self.data_process is not None:
             self.save_model()
-        return grid_search.best_score_, grid_search.best_params_, accuracy_test
+        return grid_search.best_score_, grid_search.best_params_, accuracy_train, accuracy_test, train_loss, test_loss
 
     def save_model(self, filename=""):
         if filename == "":
-            filename = str(self.model.__class__())[:-2] + "_best_estimator_" + self.data_process
+            if self.model.__str__()[:6] == 'Voting':
+                filename = "Voting_best_estimator_" + self.data_process
+            else:
+                filename = str(self.model.__class__())[:-2] + "_best_estimator_" + self.data_process
         dump(self.model, open('models/best_estimators/' + filename + '.pkl', 'wb'))
 
 

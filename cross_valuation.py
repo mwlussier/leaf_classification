@@ -33,12 +33,17 @@ def main():
         print("Model valuation: [" + _name.upper() + "]")
         if pipeline == 'simple':
             _model.training()
-            best_score = _model.evaluate()
+            accuracy_train, accuracy_test, train_loss, test_loss = _model.evaluate()
             parameters = _model.parameters
-            cross_valuation.append({'model': _name, 'score': best_score, 'parameters': parameters})
+            cross_valuation.append({'model': _name, 'accuracy_train': accuracy_train,
+                                    'train_loss': train_loss, 'test_loss': test_loss,
+                                    'accuracy_test': accuracy_test, 'parameters': parameters})
         else:
-            gs_best_score, gs_best_parameters, best_score = _model.pipeline(_model.param_grid)
-            cross_valuation.append({'model': _name, 'score': best_score,
+            gs_best_score, gs_best_parameters, accuracy_train, accuracy_test, train_loss, test_loss = (
+                _model.pipeline(_model.param_grid, score_metrics='neg_log_loss'))
+
+            cross_valuation.append({'model': _name, 'accuracy_train': accuracy_train, 'accuracy_test': accuracy_test,
+                                    'train_loss': train_loss, 'test_loss': test_loss,
                                     'gs_parameters': gs_best_parameters, 'gs_score': gs_best_score})
 
     pd.DataFrame(cross_valuation).to_csv('reports/cross_valuation/cross_valuation_'+data_process + '.csv')
