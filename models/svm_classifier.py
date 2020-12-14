@@ -1,17 +1,18 @@
 from sklearn.svm import SVC
 from models.vanilla_classifier import VanillaClassifier
 
-class svm_classifier(VanillaClassifier):
+class SvmClassifier(VanillaClassifier):
     """
     SVM Classifier
     ==================
         Child class implementing support vector machine (SVM) classifying model.
     Attributes
     ==========
-        _kernel -
-        _c      -
-        _gamma  -
-        _data_processing
+        _kernel          - Kernel type to be used in the algorithm
+        _c               - Regularization parameter
+        _gamma           - Kernel coefficient for 'rbf', 'poly', and 'sigmoid'
+        _degree          - Degree of polynomial kernel function ('poly')
+        _data_processing - Type of processed data to use in the training est testing process
     """
     def __init__(self, _kernel='rbf', _c=1, _gamma=1, _degree=3, data_process=None):
         super().__init__(SVC(probability=True, kernel=_kernel, gamma=_gamma, C=_c, degree=_degree),

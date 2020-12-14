@@ -1,0 +1,7 @@
+,model,accuracy_train,accuracy_test,train_loss,test_loss,gs_parameters,gs_score
+0,bagging,1.0,0.9764309764309764,0.6021086512273534,0.6874946526594515,"{'weights': [1, 0, 1]}",-0.7502123261840091
+1,decision_tree,0.8932178932178932,0.6936026936026936,0.25524649085568635,8.440896469167862,"{'criterion': 'entropy', 'max_depth': 100, 'min_samples_leaf': 5, 'min_samples_split': 3}",-12.016986716489438
+2,fconnected,1.0,0.9797979797979798,0.0015627290864422708,0.08210663633675087,"{'activation': 'relu', 'alpha': 0.01, 'early_stopping': False, 'hidden_layer_sizes': (128,), 'learning_rate': 'constant', 'learning_rate_init': 0.01, 'max_iter': 400, 'solver': 'adam'}",-0.07579909596979567
+3,logit,1.0,0.9865319865319865,0.000291499330752288,0.07306174103209462,"{'C': 251.18864315095823, 'max_iter': 1500, 'penalty': 'l2', 'solver': 'newton-cg'}",-0.09231093788903204
+4,random_forest,1.0,0.9663299663299664,0.25902069327089383,0.9607427532177162,"{'criterion': 'entropy', 'max_depth': 24, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 100}",-1.091050588006636
+5,svm,1.0,0.9865319865319865,2.317224633223034,2.4167343909992014,"{'C': 100.0, 'degree': 7, 'gamma': 0.001, 'kernel': 'sigmoid'}",-2.657725816539849

@@ -1,13 +1,13 @@
 # import os
 import sys
 # sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
-from models.bagging_classifier import bagging
-from models.decision_tree_classifier import decision_tree
-from models.fully_connected_classifier import fully_connected
-from models.gradient_boosting_classifier import gradient_boosting
-from models.logistic_regression_classifier import logistic_regression
-from models.random_forest_classifier import random_forest
-from models.svm_classifier import svm_classifier
+from models.bagging_classifier import Bagging
+from models.decision_tree_classifier import DecisionTree
+from models.fully_connected_classifier import FullyConnected
+from models.gradient_boosting_classifier import GradientBoosting
+from models.logistic_regression_classifier import Logit
+from models.random_forest_classifier import RandomForest
+from models.svm_classifier import SvmClassifier
 
 
 def main():
@@ -21,13 +21,6 @@ def main():
     data_processing: <Empty> | simple | fselection | pca50 | pca100 | pca150
     """
 
-    model = fully_connected(data_process='fselection')
-    #model = bagging(data_process=True)
-    #model.pipeline(model.param_grid, k_fold=5)
-
-    model.training()
-    model.evaluate()
-
     try:
         data_process = sys.argv[5]
     except:
@@ -35,25 +28,25 @@ def main():
 
     #  ~~~ Bagging ~~~
     if sys.argv[1] == 'bagging':
-        model = bagging(data_process=data_process)
+        model = Bagging(data_process=data_process)
     #  ~~~ Decision Tree ~~~
     if sys.argv[1] == 'decision_tree':
-        model = decision_tree(data_process=data_process)
+        model = DecisionTree(data_process=data_process)
     #  ~~~ Fully Connected ~~~
     if sys.argv[1] == 'fconnected':
-        model = fully_connected(data_process=data_process)
+        model = FullyConnected(data_process=data_process)
     #  ~~~ GBoost ~~~
     if sys.argv[1] == 'gboost':
-        model = gradient_boosting(data_process=data_process)
+        model = GradientBoosting(data_process=data_process)
     #  ~~~ LOGIT ~~~
     if sys.argv[1] == 'logit':
-        model = logistic_regression(data_process=data_process)
+        model = Logit(data_process=data_process)
     #  ~~~ Random Forest ~~~
     if sys.argv[1] == 'random_forest':
-        model = random_forest(data_process=data_process)
+        model = RandomForest(data_process=data_process)
     #  ~~~ SVM ~~~
     if sys.argv[1] == 'svm':
-        model = svm_classifier(data_process=data_process)
+        model = SvmClassifier(data_process=data_process)
 
 
     if sys.argv[2] == 'simple':
@@ -62,8 +55,6 @@ def main():
 
     if sys.argv[2] == 'cross_validation':
         model.pipeline(model.param_grid, k_fold=5, score_metrics=sys.argv[3], evaluation=sys.argv[4])
-
-
 
 if __name__ == "__main__":
     main()

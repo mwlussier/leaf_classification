@@ -3,17 +3,18 @@ from sklearn.ensemble import GradientBoostingClassifier
 from models.vanilla_classifier import VanillaClassifier
 
 
-class gradient_boosting(VanillaClassifier):
+class GradientBoosting(VanillaClassifier):
     """
     GBoost Classifier
     ==================
         Child class implementing Gradient Boosting (GBoost) classifying model.
     Attributes
     ==========
-        _loss           -
-        _learning_rate  -
-        _n_estimators   -
-        _criterion      -
+        _loss            - Loss function to be optimized
+        _learning_rate   - Learning rate shrinkage
+        _n_estimators    - Number of boosting stages to perform
+        _criterion       - Function to measure the quality of a split
+        _data_processing - Type of processed data to use in the training est testing process
     """
     def __init__(self, _loss='deviance', _learning_rate=0.1, _n_estimators=100, _criterion='friedman_mse',
                  data_process=None):

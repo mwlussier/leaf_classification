@@ -2,27 +2,21 @@ from sklearn.neural_network import MLPClassifier
 from models.vanilla_classifier import VanillaClassifier
 
 
-class fully_connected(VanillaClassifier):
+class FullyConnected(VanillaClassifier):
     """
     MLP Classifier
     ==================
         Child class implementing Multi-Layer Perceptron classifying model.
     Attributes
     ==========
-        _hidden_layer_sizes -
-        _activation      -
-        _solver
-        _alpha
-        _learning_rate
-        _learning_rate_init
-        _max_iter
-
-
-
-The number of hidden neurons should be between the size of the input layer and the size of the output layer.
-The number of hidden neurons should be 2/3 the size of the input layer, plus the size of the output layer.
-The number of hidden neurons should be less than twice the size of the input layer.
-see this https://www.heatonresearch.com/2017/06/01/hidden-layers.html
+        _hidden_layer_sizes - The ith element represents the number of neurons in the ith hidden layer
+        _activation         - Activation function for the hidden layer
+        _solver             - Solver for weight optimization
+        _alpha              - L2 regularization term
+        _learning_rate      - Learning rate schedule (only use when solver='sgd')
+        _learning_rate_init - Initial learning rate used
+        _max_iter           - Maximum number of iteration
+        _data_processing    - Type of processed data to use in the training est testing process
     """
 
     def __init__(self, _hidden_layer_sizes=(100,), _activation='relu', _solver='adam', _alpha=0.0001,

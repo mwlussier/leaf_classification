@@ -2,15 +2,16 @@ from sklearn.ensemble import RandomForestClassifier
 from models.vanilla_classifier import VanillaClassifier
 
 
-class random_forest(VanillaClassifier):
+class RandomForest(VanillaClassifier):
     """
     Random Forest Classifier
     ==================
         Child class implementing Random Forest classifying model.
     Attributes
     ==========
-        _n_estimators -
-        _criterion      -
+        _n_estimators    - Number of trees in the forest
+        _criterion       - Function to measure the quality of a split
+        _data_processing - Type of processed data to use in the training est testing process
     """
     def __init__(self, _n_estimators=100, _criterion='gini', data_process=None):
         super().__init__(RandomForestClassifier(n_estimators=_n_estimators, criterion=_criterion),

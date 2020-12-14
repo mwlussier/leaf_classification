@@ -15,10 +15,10 @@ class VanillaClassifier:
 
     Attributes
     ==========
-        model   - sklearn model used for training and predictions
-        x_train - training variables
-        y_train - training labels
-
+        model            - sklearn model used for training and predictions
+        data_processing  - Type of processed data to use in the training est testing process
+        x_train, y_train - training variables and labels
+        x_test, y_test   - testing variables and labels
     """
 
     def __init__(self, model, data_process=None):
@@ -37,6 +37,13 @@ class VanillaClassifier:
         return self.model.predict_proba(X)
 
     def evaluate(self, evaluation='report', visualisation=False):
+        """
+        Evaluate the model reporting different metrics including:
+            accuracy
+            log_loss
+            confusion matrix
+            classification report
+        """
         accuracy_train = self.model.score(self.X_train, self.y_train)
         accuracy_test = self.model.score(self.X_test, self.y_test)
         err_train = 1 - accuracy_train

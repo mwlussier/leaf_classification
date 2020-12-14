@@ -3,14 +3,15 @@ from sklearn.tree import DecisionTreeClassifier
 from models.vanilla_classifier import VanillaClassifier
 
 
-class decision_tree(VanillaClassifier):
+class DecisionTree(VanillaClassifier):
     """
     Decision Tree Classifier
     ==================
         Child class implementing Decision Tree classifying model.
     Attributes
     ==========
-        _criterion      -
+        _criterion       - Function to measure quality of a split
+        _data_processing - Type of processed data to use in the training est testing process
     """
     def __init__(self, _criterion='gini', data_process=None):
         super().__init__(DecisionTreeClassifier(criterion=_criterion), data_process=data_process)
@@ -19,8 +20,8 @@ class decision_tree(VanillaClassifier):
 
     def get_param_grid(self):
         return {'criterion': ['gini', 'entropy'],
-                'max_depth': [6, 8, 10],
+                'max_depth': [50, 100],
                 'min_samples_split': [2, 3, 5],
-                'min_samples_leaf': [1, 3]
+                'min_samples_leaf': [3, 5]
                 }
 
