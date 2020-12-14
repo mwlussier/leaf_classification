@@ -1,6 +1,5 @@
-import numpy as np
 from sklearn.ensemble import GradientBoostingClassifier
-from models.vanilla_classifier import VanillaClassifier
+from src.models.vanilla_classifier import VanillaClassifier
 
 
 class GradientBoosting(VanillaClassifier):

@@ -1,5 +1,5 @@
 from sklearn.svm import SVC
-from models.vanilla_classifier import VanillaClassifier
+from src.models.vanilla_classifier import VanillaClassifier
 
 class SvmClassifier(VanillaClassifier):
     """

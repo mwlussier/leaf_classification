@@ -1,5 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
-from models.vanilla_classifier import VanillaClassifier
+from src.models.vanilla_classifier import VanillaClassifier
 
 
 class RandomForest(VanillaClassifier):

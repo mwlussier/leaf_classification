@@ -1,14 +1,13 @@
-# import os
+import os
 import sys
-# sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
-from models.bagging_classifier import Bagging
-from models.decision_tree_classifier import DecisionTree
-from models.fully_connected_classifier import FullyConnected
-from models.gradient_boosting_classifier import GradientBoosting
-from models.logistic_regression_classifier import Logit
-from models.random_forest_classifier import RandomForest
-from models.svm_classifier import SvmClassifier
-
+from src.models.bagging_classifier import Bagging
+from src.models.decision_tree_classifier import DecisionTree
+from src.models.fully_connected_classifier import FullyConnected
+from src.models.gradient_boosting_classifier import GradientBoosting
+from src.models.logistic_regression_classifier import Logit
+from src.models.random_forest_classifier import RandomForest
+from src.models.svm_classifier import SvmClassifier
+sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 
 def main():
     """
@@ -18,7 +17,7 @@ def main():
     pipeline: simple | cross_validation
     cv_metrics: accuracy | roc_auc_ovr
     evaluate: <report> | confusion_matrix
-    data_processing: <Empty> | simple | fselection | pca50 | pca100 | pca150
+    data_processing: <Empty> | simple | fselection | pca_50 | pca_100 | pca_150
     """
 
     try:

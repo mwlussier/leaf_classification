@@ -2,7 +2,7 @@ from sklearn.ensemble import VotingClassifier
 from sklearn.svm import SVC
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.neural_network import MLPClassifier
-from models.vanilla_classifier import VanillaClassifier
+from src.models.vanilla_classifier import VanillaClassifier
 
 
 class Bagging(VanillaClassifier):

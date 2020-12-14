@@ -1,6 +1,5 @@
-import numpy as np
 from sklearn.tree import DecisionTreeClassifier
-from models.vanilla_classifier import VanillaClassifier
+from src.models.vanilla_classifier import VanillaClassifier
 
 
 class DecisionTree(VanillaClassifier):

@@ -1,5 +1,5 @@
 from sklearn.neural_network import MLPClassifier
-from models.vanilla_classifier import VanillaClassifier
+from src.models.vanilla_classifier import VanillaClassifier
 
 
 class FullyConnected(VanillaClassifier):

@@ -26,37 +26,30 @@ Model Training
 >>
 >> evaluate: <report> | confusion_matrix 
 >>
->> data_processing: <Empty> | simple | fselection | pca50 | pca100 | pca150
+>> data_processing: <Empty> | simple | fselection | pca_50 | pca_100 | pca_150
 > 
 > 
 > python3 cross_valuation.py [pipeline] [data_processing]
 >>
 >> pipeline: simple | cross_validation
 >>
->> data_processing: <Empty> | simple | fselection | pca50 | pca100 | pca150
+>> data_processing: <Empty> | simple | fselection | pca_50 | pca_100 | pca_150
 
 Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── Makefile            <- Makefile with commands like `make data` or `make train`
+    ├── README.md           <- The top-level README for developers using this project.
     ├── data
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │   │   ├── test.csv   <- testing set from Leaf Classification Competition (Kaggle) 
-    │   │   └── train.csv  <- training set from Leaf Classification Competition (Kaggle)
+    │   ├── interim         <- Intermediate data that has been transformed.
+    │   ├── processed       <- The final, canonical data sets for modeling.
+    │   └── raw             <- The original, immutable data dump.
+    │      ├── test.csv     <- testing set from Leaf Classification Competition (Kaggle) 
+    │      └── train.csv    <- training set from Leaf Classification Competition (Kaggle)
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │   ├──  __init__.py   <- Makes models a Python module
-    │   ├── bagging_classifier.py
-    │   ├── decision_tree_classifier.py
-    │   ├── gradient_boosting_classifier.py
-    │   ├── logistic_regression_classifier.py
-    │   ├── ramdom_forest_classifier.py
-    │   ├── svm_classifier.py
-    │   └── vanilla_classifier.py
+    ├── models              <- Trained and serialized models, model predictions, or model summaries
+    │   ├──  best_estimator <- Best models from GridSearchCV
     │
     ├── notebooks           <- Jupyter notebooks.
     │
@@ -74,10 +67,14 @@ Project Organization
     │   ├── data            <- Scripts to generate data
     │   │   └── make_dataset.py
     │   │
-    │   ├── models          <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   ├── models          <- Scripts for the usage of the models
+    │   |   ├── bagging_classifier.py
+    │   |   ├── decision_tree_classifier.py
+    │   |   ├── gradient_boosting_classifier.py
+    │   |   ├── logistic_regression_classifier.py
+    │   |   ├── ramdom_forest_classifier.py
+    │   |   ├── svm_classifier.py
+    │   |   └── vanilla_classifier.py
     │   │
     │   └── visualization*  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py

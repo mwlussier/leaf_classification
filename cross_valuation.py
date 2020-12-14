@@ -1,12 +1,12 @@
 import sys
 import pandas as pd
-from models.bagging_classifier import Bagging
-from models.decision_tree_classifier import DecisionTree
-from models.fully_connected_classifier import FullyConnected
-from models.gradient_boosting_classifier import GradientBoosting
-from models.logistic_regression_classifier import Logit
-from models.random_forest_classifier import RandomForest
-from models.svm_classifier import SvmClassifier
+from src.models.bagging_classifier import Bagging
+from src.models.decision_tree_classifier import DecisionTree
+from src.models.fully_connected_classifier import FullyConnected
+from src.models.gradient_boosting_classifier import GradientBoosting
+from src.models.logistic_regression_classifier import Logit
+from src.models.random_forest_classifier import RandomForest
+from src.models.svm_classifier import SvmClassifier
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     python3 cross_valuation.py <pipeline> <data_processing>
 
     pipeline: simple | cross_validation
-    data_processing: <Empty> | simple | fselection | pca50 | pca100 | pca150
+    data_processing: <Empty> | simple | fselection | pca_50 | pca_100 | pca_150
 
     'gboost': GradientBoosting(data_process=data_process)
     """
