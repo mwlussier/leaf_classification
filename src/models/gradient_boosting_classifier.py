@@ -18,7 +18,7 @@ class GradientBoosting(VanillaClassifier):
     def __init__(self, _loss='deviance', _learning_rate=0.1, _n_estimators=100, _criterion='friedman_mse',
                  data_process=None):
         super().__init__(GradientBoostingClassifier(loss=_loss, learning_rate=_learning_rate,
-                                                    n_estimators=_n_estimators, criterion=_criterion),
+                                                    n_estimators=_n_estimators, criterion=_criterion, verbose=1),
                          data_process=data_process)
         self.parameters = {'loss': _loss, 'learning_rate': _learning_rate,
                            'n_estimators': _n_estimators, 'criterion': _criterion}

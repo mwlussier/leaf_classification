@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, log_loss
@@ -33,8 +34,9 @@ class VanillaClassifier:
     def prediction(self, X):
         return self.model.predict(X)
 
-    def prediction_probabilities(self, X):
-        return self.model.predict_proba(X)
+    def prediction_probabilities_submission(self):
+        return pd.DataFrame(self.model.predict_proba(self.X_submission),
+                            index=self.X_submission.index, columns=self.label_map)
 
     def evaluate(self, evaluation='report', visualisation=False):
         """
@@ -100,7 +102,7 @@ class VanillaClassifier:
                 filename = "Voting_best_estimator_" + self.data_process
             else:
                 filename = str(self.model.__class__())[:-2] + "_best_estimator_" + self.data_process
-        dump(self.model, open('models/best_estimators/' + filename + '.pkl', 'wb'))
+        dump(self.model, open('models/' + filename + '.pkl', 'wb'))
 
 
 def metrics(y, label_map, prediction, evaluation='report', probability=None):
@@ -119,6 +121,7 @@ def metrics(y, label_map, prediction, evaluation='report', probability=None):
         print('ROC AUC: {:.2f}'.format(auc))
         print("================================================")
 
+
 def error_analysis(err_train, err_test, threshold=0.2):
     """
         Using a threshold to flag when there is over/under-fitting.
@@ -127,7 +130,7 @@ def error_analysis(err_train, err_test, threshold=0.2):
     if (err_test - err_train) > threshold:
         print("WARNING: OVER-fitting")
         return False
-    if (err_train > threshold):
+    if err_train > threshold:
         print("WARNING: UNDER-fitting")
         return False
     return True

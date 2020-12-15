@@ -7,6 +7,7 @@ import pandas as pd
 from util_dataset import to_interim, to_processed
 from preprocess_dataset import complete_preprocessing
 
+
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('interim_filepath', type=click.Path())
@@ -19,11 +20,11 @@ def main(input_filepath, interim_filepath, processed_filepath):
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
 
-    ### RAW DATA PULL ###
+    # RAW DATA PULL
     train_data = pd.read_csv(input_filepath + '/train.csv', index_col='id')
     submission_data = pd.read_csv(input_filepath + '/test.csv', index_col='id')
 
-    ### PROCESSING ###
+    # PROCESSING DATA
     to_interim(train_data, seperate_label=True, file_name='/train.csv')
     to_interim(submission_data, file_name='/submission.csv')
 
@@ -34,7 +35,7 @@ def main(input_filepath, interim_filepath, processed_filepath):
     train_fselection, submission_fselection = complete_preprocessing(train_data, submission_data,
                                                                      features_selection=True)
 
-    ### SAVED TO PROCESSED FILEPATH ###
+    # SAVED TO PROCESSED FILEPATH
     # preprocessed Simple
     to_processed(train_simple, submission_simple,
                  train_suffixe='train_simple', submission_suffixe='submission_simple')

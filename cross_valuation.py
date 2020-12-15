@@ -1,3 +1,4 @@
+import os
 import sys
 import pandas as pd
 from src.models.bagging_classifier import Bagging
@@ -7,23 +8,21 @@ from src.models.gradient_boosting_classifier import GradientBoosting
 from src.models.logistic_regression_classifier import Logit
 from src.models.random_forest_classifier import RandomForest
 from src.models.svm_classifier import SvmClassifier
+sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 
 
 def main():
     """
-    python3 cross_valuation.py <pipeline> <data_processing>
+    python cross_valuation.py <pipeline> <data_processing>
+    $ python cross_valuation.py cross_validation fselection
 
     pipeline: simple | cross_validation
     data_processing: <Empty> | simple | fselection | pca_50 | pca_100 | pca_150
 
     'gboost': GradientBoosting(data_process=data_process)
     """
-    pipeline = "cross_validation" #sys.argv[1]
-    data_process = "pca_100" #sys.argv[2]
-
-    # models = {
-    #            'decision_tree': decision_tree(data_process=data_process)
-    #           }
+    pipeline = sys.argv[1]
+    data_process = sys.argv[2]
 
     models = {'bagging': Bagging(data_process=data_process),
               'decision_tree': DecisionTree(data_process=data_process),
@@ -51,7 +50,7 @@ def main():
                                     'train_loss': train_loss, 'test_loss': test_loss,
                                     'gs_parameters': gs_best_parameters, 'gs_score': gs_best_score})
 
-    pd.DataFrame(cross_valuation).to_csv('reports/cross_valuation/cross_valuation_'+data_process + '.csv')
+    pd.DataFrame(cross_valuation).to_csv('reports/cross_valuation/' + pipeline + "_valuation_" + data_process + '.csv')
 
 
 if __name__ == "__main__":

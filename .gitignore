@@ -80,7 +80,7 @@ target/
 #/data/
 
 # exclude data from source control by default
-/models/best_estimators/*
+/models/*.pkl
 
 
 # Mac OS-specific storage files

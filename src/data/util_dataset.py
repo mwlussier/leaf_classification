@@ -1,10 +1,10 @@
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.preprocessing import LabelEncoder
+sys.path.append(os.path.dirname(os.path.join(os.getcwd())))
 
 
 def to_interim(dataframe, file_name, seperate_label=False, interim_filepath='data/interim'):
@@ -12,13 +12,13 @@ def to_interim(dataframe, file_name, seperate_label=False, interim_filepath='dat
     Interim process to transform dataset.
     Perform an initial separation of features and labels prior to processing.
     """
-    ### SAVE TO INTERIM PATH ###
+    # SAVE TO INTERIM PATH
     dataframe.to_csv(interim_filepath + file_name)
     if seperate_label:
         X = dataframe.drop(['species'], axis=1)
         y = dataframe.species
 
-        ### SAVE TO INTERIM PATH ###
+        # SAVE TO INTERIM PATH
         X.to_csv(interim_filepath + '/x_train.csv')
         y.to_csv(interim_filepath + '/y_train.csv')
 
@@ -32,7 +32,7 @@ def to_processed(train_data, submission_data,
     X = train_data.drop(['species'], axis=1)  # ['species', 'general_species']
     y = train_data.species
 
-    ### SAVE TO PROCESSED PATH ###
+    # SAVE TO PROCESSED PATH
     X.to_csv(processed_filepath + '/x_' + train_suffixe + '.csv')
     y.to_csv(processed_filepath + '/y_' + train_suffixe + '.csv')
     submission_data.to_csv(processed_filepath + '/x_' + submission_suffixe + '.csv')

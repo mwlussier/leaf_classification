@@ -2,22 +2,24 @@ Leaf Classification
 ==============================
 Kaggle "Leaf Classification" database classification project for IFT712.
 
+**Python version >= 3.5 required
+
 For package installation, you may run*: 
-> pip install -r "requirements.txt"
+> $ pip install -r "requirements.txt"
 
 *In case there is an error regarding "pkg-resources==0.0.0", you may try removing it from the requirements.txt file.
 There seem to be a general issue regarding this particular package and virtual environment.
 
 Data Initialisation
 ------------
-Make sure there is a "data" folder as presented below with your raw data into "data/raw".
+Make sure there is a "data" folder as presented in the architecture below, with your raw data into "data/raw".
 
-You may then run (you need Make to execute Makefile):
-> make data
+You may then run: (you need Make to execute Makefile)
+> $ make data
 
 Model Training
 ------------
-> $ python3 main.py [model] [pipeline] [cv_metrics] [evaluate] [data_processing]
+> $ python main.py [model] [pipeline] [cv_metrics] [evaluate] [data_processing]
 > 
 >> model : bagging | decision_tree | fconnected | gboost | logit | random_forest | svm
 >> 
@@ -29,7 +31,7 @@ Model Training
 >> data_processing: <Empty> | simple | fselection | pca_50 | pca_100 | pca_150
 > 
 > 
-> python3 cross_valuation.py [pipeline] [data_processing]
+> $ python cross_valuation.py [pipeline] [data_processing]
 >>
 >> pipeline: simple | cross_validation
 >>
@@ -60,7 +62,7 @@ Project Organization
     ├── requirements.txt    <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
-    ├── setup.py*           <- makes project pip installable (pip install -e .) so src can be imported
+    ├── setup.py**          <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                 <- Source code for use in this project.
     │   ├── __init__.py     <- Makes src a Python module
     │   │
@@ -76,13 +78,13 @@ Project Organization
     │   |   ├── svm_classifier.py
     │   |   └── vanilla_classifier.py
     │   │
-    │   └── visualization*  <- Scripts to create exploratory and results oriented visualizations
+    │   └── visualization**  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
     │
-    ├── cross_valuation.py <- python3 cross_valuation.py <pipeline> <data_processing>
-    └── main.py            <- python3 main.py <model> <pipeline> <cv_metrics> <evaluate> <data_processing>
+    ├── cross_valuation.py   <- python3 cross_valuation.py <pipeline> <data_processing>
+    └── main.py              <- python3 main.py <model> <pipeline> <cv_metrics> <evaluate> <data_processing>
+** Not yet implemented
 
-* Not yet implemented
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>

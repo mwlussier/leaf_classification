@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
+
 def complete_preprocessing(train_data, submission_data, pca=None, features_selection=False):
     """
     Apply full preprocessing operation to the training and to submit data.
